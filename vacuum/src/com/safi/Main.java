@@ -66,7 +66,7 @@ public class Main {
             for (int v =0 ; v < nVertex; v++){
 
                 // Update path: total cost, final room index, previous room (path) index
-                // is unvisited && is connected && new add path cost > previous one && current dirt level >=
+                // is unvisited && is connected && new add path cost > previous one && cost curr vertex to v >=
                 if(!isVisited[v] && graph[u][v] != 0 && (sumCost[u] + graph[u][v] > sumCost[v]) && graph[u][v] >= graph[0][v]){
                     sumCost[v] = sumCost[u] + graph[u][v];
                     previous[v] = u;
