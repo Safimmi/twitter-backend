@@ -20,28 +20,16 @@ public class Main {
         String fileDir = getInputFileDir();
         int n = getInputFile_graphSize(fileDir);
 
-        //Create arrays for room names (Node V) and Dirt Values (Edge/Cost E)
-        //Create array and int for final maximum path and end node
-        //Fill Data
+        //Fill Data: room, dirt
         String roomNames[] = new String[n];
         int dirtValue[] = new int[n];
         getInputFile_graphData(fileDir, n, roomNames, dirtValue);
 
-        /*
-        Create Adjacency Matrix:
-            It only focuses on the connections of the graph and their weights respectively.
-            It does not include rooms constraints (Dirt value constraint)
-            Upper Triangular Matrix (Room Order)
-        */
+        //Create Adjacency Matrix: Upper Triangular Matrix (Room Order)
         int graph[][] = new int [n][];
         int dirtValueOg[] = dirtValue.clone();
 
         for (int i = 0; i<n; i++){
-            /*
-            //Final Node Access
-            if(i==0 || i==n-1){dirtValue[n-1]=0;}
-            else{dirtValue[n-1]=1;}
-            */
             graph[i] = dirtValue.clone();
             if(i<n-1) {dirtValue[i+1] = 0; }
         }
@@ -53,38 +41,27 @@ public class Main {
 
     public static void dijkstra(int[][] graph, int startNode, String[] roomNames, int[] dirtValue){
 
-        int nVertex = graph.length; //Number of nodes in the graph
-        boolean[] isVisited = new boolean[nVertex]; //Checks if the node is already visited
-        int[] sumCost = new int[nVertex]; // Accumulated cost of maximum path (Dirt Level)
-        int[] previous = new int[nVertex]; // Previous node to follow the maximum path
+        int nVertex = graph.length;
+        boolean[] isVisited = new boolean[nVertex];
+        int[] sumCost = new int[nVertex];
+        int[] previous = new int[nVertex];
 
-        //Set every list to initial state
+        //Set initial state
         for (int i = 0; i < nVertex; i++){
-            isVisited[i] = false; //All nodes are unvisited
+            isVisited[i] = false;
             sumCost[i] = -1; //The maximum path is yet not defined
-            previous[i] = 0; //The previous node for all nodes is the start node
+            previous[i] = 0;
         }
 
         //Start Node values
-        int finalNode = 0; //Final node where the path should end (Most dirt quantity possible to clean)
-        sumCost[startNode] = 0; // Cost of start node to itself is zero
-        previous[startNode] = -1; // Previous of start node it's none
+        int finalNode = 0;
+        sumCost[startNode] = 0;
+        previous[startNode] = -1;
 
         for (int i = 0; i < nVertex; i++){
 
-            // Find the connected node with the most cost possible (from the start node)
-            // {u,v} = {row,colum}
-            // Then mark that node as visited
             int u = findMaxCost(sumCost, isVisited);
             isVisited[u] = true;
-
-            /*
-            Update cost for every node connected to the previous node find
-            Constraint:
-                Follow dirt level constraint (previous room >= next room)
-                The start node can always access to every other room
-                First List of sumCost = [0,... dirt level of every room] --> sumCost[u]
-            */
 
             for (int v =0 ; v < nVertex; v++){
 
@@ -101,12 +78,11 @@ public class Main {
 
         }
 
-
-        //Print Solution
-        for (int i = 0; i < sumCost.length; i++){
-            System.out.println(String.format("%s. Distance from source vertex %s to vertex %s is %s, and the previous node is %s",i , startNode, i, sumCost[i], previous[i]));
-        }
-        System.out.println("Final Room is : " + finalNode);
+//        //Print Solution
+//        for (int i = 0; i < sumCost.length; i++){
+//            System.out.println(String.format("%s. Distance from source vertex %s to vertex %s is %s, and the previous node is %s",i , startNode, i, sumCost[i], previous[i]));
+//        }
+//        System.out.println("Final Room is : " + finalNode);
 
         //Create a write file with output
         exportOutputFile(roomNames, dirtValue, previous, finalNode);
@@ -119,7 +95,6 @@ public class Main {
         int maxCostIndex = -1;
 
         for (int i =0; i < sumCost.length; i++){
-            // For all the unvisited nodes, acumulado >
             if(!isVisited[i] && sumCost[i] > maxCost){
                 maxCost = sumCost[i];
                 maxCostIndex = i;
@@ -149,6 +124,9 @@ public class Main {
             e.printStackTrace();
             return " ";
         }
+        finally {
+            scanner.close();
+        }
 
     }
 
@@ -162,28 +140,6 @@ public class Main {
             String data = inputFile.nextLine();
             int n = Integer.parseInt(data) + 1;
 
-            //Separate data into room names and dirt values (cost of edges E)
-            String inputRoomNames[] = new String[n];
-            int inputDirtValues[] = new int[n];
-            //Add data to the extra node (start node)
-            inputRoomNames[0] = "Start";
-            inputDirtValues[0] = 0;
-
-            //Add data of the other nodes
-            int i = 1;
-            while (inputFile.hasNextLine() && i < n) {
-
-                //Obtain first line and separate in two strings by a comma
-                //Delete spaces for second string (dirt value) and add info to the specified array
-                data = inputFile.nextLine();
-                String[] inputData = data.split(",");
-
-                inputRoomNames[i] = inputData[0];
-                inputDirtValues[i] = Integer.parseInt(inputData[1].replaceAll("\\s",""));
-
-                i++;
-            }
-
             inputFile.close();
             return n;
 
@@ -192,6 +148,7 @@ public class Main {
             e.printStackTrace();
             return 0;
         }
+
 
     }
 
@@ -204,8 +161,6 @@ public class Main {
             //Skip first Line
             String data = inputFile.nextLine();
 
-            //Separate data into room names and dirt values (cost of edges E)
-            //Add data to the extra node (start node)
             inputRoomNames[0] = "Start";
             inputDirtValues[0] = 0;
 
@@ -213,8 +168,6 @@ public class Main {
             int i = 1;
             while (inputFile.hasNextLine() && i < n) {
 
-                //Obtain first line and separate in two strings by a comma
-                //Delete spaces for second string (dirt value) and add info to the specified array
                 data = inputFile.nextLine();
                 String[] inputData = data.split(",");
 
