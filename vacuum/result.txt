@@ -1,0 +1,5 @@
+4 
+Hall, 889 
+Cafeteria, 867 
+Terrace, 587 
+Terrace offices, 34 
