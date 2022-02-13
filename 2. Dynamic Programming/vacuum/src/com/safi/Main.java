@@ -21,13 +21,13 @@ public class Main {
         int n = getInputFile_graphSize(fileDir);
 
         //Fill Data: room, dirt
-        String roomNames[] = new String[n];
-        int dirtValue[] = new int[n];
+        String[] roomNames = new String[n];
+        int[] dirtValue = new int[n];
         getInputFile_graphData(fileDir, n, roomNames, dirtValue);
 
         //Create Adjacency Matrix: Upper Triangular Matrix (Room Order)
-        int graph[][] = new int [n][];
-        int dirtValueOg[] = dirtValue.clone();
+        int[][] graph = new int [n][];
+        int[] dirtValueOg = dirtValue.clone();
 
         for (int i = 0; i<n; i++){
             graph[i] = dirtValue.clone();
