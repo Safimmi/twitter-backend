@@ -3,16 +3,14 @@ package com.safi;
 public class RoomsSet {
 
     private String path;
-    protected int nRoom;
-    private String[] roomName;
-    private int[] dirtValue;
+    private int nRoom;
+    private Room[] rooms;
 
     RoomsSet(){}
     RoomsSet(String dir, int n){
         this.path = dir;
         this.nRoom = n;
-        roomName = new String[nRoom];
-        dirtValue = new int[nRoom];
+        rooms = new Room[nRoom];
     }
 
     //Getters
@@ -22,19 +20,29 @@ public class RoomsSet {
     public int getnRoom (){
         return this.nRoom;
     }
-    public String[] getRoomName(){
-        return this.roomName;
+    public Room[] getRooms () {
+        return this.rooms;
     }
-    public int[] getDirtValue(){
-        return this.dirtValue;
+
+    public int[] getDirtValuesArray () {
+        int [] dirt  = new int [nRoom];
+        for (int i = 0; i<this.nRoom; i++){
+            dirt[i] = rooms[i].getDirtValue();
+        }
+        return dirt;
+    }
+    public String getRoomNameByIndex(int i){
+        return this.rooms[i].getRoomName();
+    }
+    public int getDirtValueByIndex(int i){
+        return this.rooms[i].getDirtValue();
     }
 
     //Setters
-    public void setAll (String path, int nRoom, String[] roomNames, int[] dirtValue){
+    public void setAll (String path, int nRoom, Room[] rooms){
         this.path = path;
         this.nRoom = nRoom;
-        this.roomName = roomNames;
-        this.dirtValue = dirtValue;
+        this.rooms = rooms;
     }
     public void setPath (String path){
         this.path = path;
@@ -42,12 +50,15 @@ public class RoomsSet {
     public void setnRoom (int n) {
         this.nRoom = n;
     }
+
+    public void initRoomByIndex (String name, int dirtValue, int i){
+        rooms[i] = new Room(name, dirtValue);
+    }
     public void setRoomNameByIndex (String value, int i){
-        this.roomName[i] = value;
+        this.rooms[i].setName(value);
     }
     public void setDirtValueByIndex (int value, int i){
-        this.dirtValue[i] = value;
+        this.rooms[i].setDirtValue(value);
     }
-
 
 }

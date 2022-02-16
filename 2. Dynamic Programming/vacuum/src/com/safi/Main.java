@@ -14,15 +14,13 @@ public class Main {
         //Read file with data input and format it --> file path by command line
         // ../Input/InputFile_01.txt
         // ../Input_Sus/input2.txt
-        RoomsSet roomsSet = new RoomsSet();
-        getInputFileData(roomsSet);
-
-        //RoomsSet XX = getInputFileData();
+        RoomsSet roomsSet = getInputFileData();
+        assert roomsSet != null;
 
         //Create Adjacency Matrix: Upper Triangular Matrix (Room Order)
         int n = roomsSet.getnRoom();
         int[][] graph = new int [n][];
-        int[] dirtValue_copy = roomsSet.getDirtValue().clone();
+        int[] dirtValue_copy = roomsSet.getDirtValuesArray();
 
         for (int i = 0; i<n; i++){
             graph[i] = dirtValue_copy.clone();
@@ -36,10 +34,7 @@ public class Main {
         dijkstraMaxNodes(graph, 0, roomsSet);
 
         //Longest decreasing Subsequence
-        longestSubsequence(roomsSet.getDirtValue(), roomsSet);
-
-
-
+        longestSubsequence(roomsSet.getDirtValuesArray(), roomsSet);
 
     }
 
@@ -59,7 +54,7 @@ public class Main {
         }
 
         //Start Node values
-        int finalNode = 0;
+        int finalNodeIndex = 0;
         sumCost[startNode] = 0;
         previousIndex[startNode] = -1;
 
@@ -77,22 +72,15 @@ public class Main {
                     previousIndex[v] = u;
                 }
                 //Update final room
-                if (sumCost[finalNode] < sumCost[v]){ finalNode = v; }
+                if (sumCost[finalNodeIndex] < sumCost[v]){ finalNodeIndex = v; }
 
             }
 
         }
 
-        /*
-        //Print Solution
-        for (int i = 0; i < sumCost.length; i++){
-            System.out.println(String.format("%s. Distance from source vertex %s to vertex %s is %s, and the previous node is %s",i , startNode, i, sumCost[i], previous[i]));
-        }
-        System.out.println("Final Room is : " + finalNode);
-        */
-
         // Create-Write file with solution
-        exportOutputFile("dijkstraMaxCost_result.txt", roomsSet, previousIndex, finalNode);
+        printSolution(roomsSet, previousIndex, sumCost, finalNodeIndex);
+        exportOutputFile("dijkstraMaxCost_result.txt", roomsSet, previousIndex, finalNodeIndex);
 
     }
 
@@ -118,18 +106,18 @@ public class Main {
 
         int nVertex = graph.length;
         int[] sumCost = new int[nVertex];
-        int[] previous = new int[nVertex];
+        int[] previousIndex = new int[nVertex];
 
         //Set initial state
         for (int i = 0; i < nVertex; i++){
             sumCost[i] = -1; //The maximum path is yet not defined
-            previous[i] = 0;
+            previousIndex[i] = 0;
         }
 
         //Start Node values
-        int finalNode = 0;
+        int finalNodeIndex = 0;
         sumCost[startNode] = 0;
-        previous[startNode] = -1;
+        previousIndex[startNode] = -1;
 
         for (int u = 0; u < nVertex; u++){
 
@@ -139,27 +127,18 @@ public class Main {
                 // is connected && new add path cost > previous one && has more dirt than the next room
                 if(graph[u][v] != 0 && (sumCost[u] + 1 >= sumCost[v]) && (graph[0][u] >= graph[0][v] || u == 0)){
                     sumCost[v] = sumCost[u] + 1;
-                    previous[v] = u;
+                    previousIndex[v] = u;
                 }
                 //Update final room
-                if (sumCost[finalNode] < sumCost[v]){ finalNode = v; }
+                if (sumCost[finalNodeIndex] < sumCost[v]){ finalNodeIndex = v; }
 
             }
 
         }
 
-        /*
-        //Print Solution
-        System.out.println(sumCost[finalNode]);
-        int aux = finalNode;
-        while (aux>0){
-            System.out.println( aux + ", " + roomsSet.getDirtValue()[aux] + ", " + sumCost[aux] + ", " + previous[aux]);
-            aux = previous[aux];
-        }
-        */
-
         // Create-Write file with solution
-        exportOutputFile("dijkstraMaxNodes_result.txt", roomsSet, previous, finalNode);
+        //printSolution(roomsSet, previousIndex, sumCost, finalNodeIndex);
+        exportOutputFile("dijkstraMaxNodes_result.txt", roomsSet, previousIndex, finalNodeIndex);
 
     }
 
@@ -193,56 +172,52 @@ public class Main {
         }
 
         // Create-Write file with solution
+        //printSolution(roomsSet,previousIndex,longestSub,maxSubIndex);
         exportOutputFile("subsequence_result.txt", roomsSet, previousIndex, maxSubIndex);
 
     }
 
-    public static void getInputFileData (RoomsSet input){
+    public static RoomsSet getInputFileData (){
 
         // Get file name path by command line
         Scanner scanner = new Scanner(System.in);
-        String dir = scanner.nextLine();
-        RoomsSet roomsSet;
 
         try {
+            String dir = scanner.nextLine();
+            RoomsSet roomsSet;
             File file = new File(dir);
             Scanner inputFile = new Scanner(file);
 
             //Rooms
             String data = inputFile.nextLine();
-            roomsSet = new RoomsSet(dir, Integer.parseInt(data)+1);
+            roomsSet = new RoomsSet(dir, Integer.parseInt(data) + 1);
 
             //Info
-            roomsSet.setRoomNameByIndex("Start", 0);
-            roomsSet.setDirtValueByIndex(0,0);
+            roomsSet.initRoomByIndex("Start", 0, 0);
 
             int i = 1;
             int n = roomsSet.getnRoom();
             while (inputFile.hasNextLine() && i < n) {
-
                 data = inputFile.nextLine();
                 String[] stringData = data.split(",");
-
-                roomsSet.setRoomNameByIndex(stringData[0], i);
-                roomsSet.setDirtValueByIndex(Integer.parseInt(stringData[1].replaceAll("\\s","")), i);
-
+                roomsSet.initRoomByIndex(stringData[0], Integer.parseInt(stringData[1].replaceAll("\\s", "")), i);
                 i++;
             }
 
-            input.setAll(roomsSet.getPath(), roomsSet.nRoom, roomsSet.getRoomName(), roomsSet.getDirtValue());
             inputFile.close();
+            return roomsSet;
 
         } catch (FileNotFoundException e) {
             System.out.println("An error occurred. File not found.");
             e.printStackTrace();
+            return null;
         }
-        finally {
-            scanner.close();
-        }
+
+
 
     }
 
-    public static void exportOutputFile(String fileName, RoomsSet roomsSet, int[] previous, int finalRoom){
+    public static void exportOutputFile(String fileName, RoomsSet roomsSet, int[] previousIndex, int finalRoomIndex){
 
         try {
 
@@ -258,9 +233,9 @@ public class Main {
             FileWriter fileWriter = new FileWriter(fileName);
             StringBuilder outputString = new StringBuilder();
             int nRooms = 0;
-            while (finalRoom > 0) {
-                outputString.insert(0, roomsSet.getRoomName()[finalRoom] + String.format(", %s \n", roomsSet.getDirtValue()[finalRoom]));
-                finalRoom = previous[finalRoom];
+            while (finalRoomIndex > 0) {
+                outputString.insert(0, roomsSet.getRoomNameByIndex(finalRoomIndex) + String.format(", %s \n", roomsSet.getDirtValueByIndex(finalRoomIndex)));
+                finalRoomIndex = previousIndex[finalRoomIndex];
                 nRooms++;
             }
             fileWriter.write(String.format("%s \n", nRooms));
@@ -271,6 +246,33 @@ public class Main {
             System.out.println("An error occurred. The file couldn't be created.");
             e.printStackTrace();
         }
+
+    }
+
+    public static void printSolution (RoomsSet roomsSet, int[] previousIndex, int[] cost, int finalIndex){
+
+        int n = roomsSet.getnRoom();
+        for (int i = 0; i<n ; i++){
+            System.out.println(roomsSet.getRoomNameByIndex(i) + ", " + roomsSet.getDirtValueByIndex(i));
+        }
+
+        System.out.println("-------------------------- \n");
+
+        //Print Solution
+        System.out.println(cost[finalIndex]);
+        int aux = finalIndex;
+        while (aux>0){
+            System.out.println( aux + ",     " + roomsSet.getRoomNameByIndex(aux) + ", " + roomsSet.getDirtValueByIndex(aux) + ", " + cost[aux] + ", " + previousIndex[aux]);
+            aux = previousIndex[aux];
+        }
+
+        /*
+        //Print Solution
+        for (int i = 0; i < sumCost.length; i++){
+            System.out.println(String.format("%s. Distance from source vertex %s to vertex %s is %s, and the previous node is %s",i , startNode, i, sumCost[i], previousIndex[i]));
+        }
+        System.out.println("Final Room is : " + finalNode);
+        */
 
     }
 
