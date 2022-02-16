@@ -18,7 +18,7 @@ Evaluate how you solve an optimization problem using dynamic programming.
 - Validate your capacity of determine the time complexity of a dynamic algorithm
 - Validate your capacity of determine the space complexity of a dynamic algorithm
   
-> - [<font color="violet">Java Project</font>](https://github.com/Safimmi/EndavaChallenges/tree/master/2.%20Dynamic%20Programming/vacuum) :memo:
+> - [<font color="violet">Java Project - Rework</font>](https://github.com/Safimmi/EndavaChallenges/tree/master/2.%20Dynamic%20Programming/vacuum) :memo:
 > - [Problem description document](https://github.com/Safimmi/EndavaChallenges/blob/master/2.%20Dynamic%20Programming/challenge%20dp.pdf)
 > - [Review Slides](https://github.com/Safimmi/EndavaChallenges/blob/master/2.%20Dynamic%20Programming/Challenge%20-%20Dynamic%20Programming.pptx)
 
