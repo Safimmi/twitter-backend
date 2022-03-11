@@ -1,0 +1,41 @@
+show dbs
+
+use AirbnbDB
+db
+
+db.createCollection('checkCreation')
+show dbs
+
+db.createCollection('User')
+db.createCollection('Tweet')
+show collections
+
+
+//Dummy User
+{
+    "_id": 123,
+    "name": "Pepito Perez",
+    "username": "pepito2022",
+    "favorites": [850006245121695744],
+    "friends": [456,789]
+}
+
+//Dummy Post
+{
+    "created_at": "Thu Apr 06 15:24:15 +0000 2017",
+    "last_modified_at": "Thu Apr 06 15:24:15 +0000 2017",
+    "_id": "850006245121695744",
+    "text": "This is my first tweet",
+    "image": "https://image.png",
+    "favorite": [
+        123,
+        456,
+        789
+    ],
+    "favorite_count": 3,
+    "user": {
+        "id": 123,
+        "name": "Pepito Perez",
+        "username": "pepito2022"  
+    }
+}
