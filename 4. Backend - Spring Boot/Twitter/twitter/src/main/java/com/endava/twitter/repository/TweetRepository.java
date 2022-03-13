@@ -26,5 +26,6 @@ public interface TweetRepository extends MongoRepository<Tweet, String> {
     List<Tweet> findAllByTextIn(List<String> value);
     List<Tweet> findAllByTextContaining(String value);
     List<Tweet> findAllByTextInOrUserIn(List<String> filtersText, List<PublicUser> filtersUser);
+    List<Tweet> findAllByTextInOrUserIn(List<String> filtersText, List<PublicUser> filtersUser, Pageable p);
 
 }

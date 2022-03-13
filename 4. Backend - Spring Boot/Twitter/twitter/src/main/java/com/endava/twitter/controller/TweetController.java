@@ -1,6 +1,7 @@
 package com.endava.twitter.controller;
 
 import com.endava.twitter.model.entity.PublicUser;
+import com.endava.twitter.model.entity.TweetSorting;
 import com.endava.twitter.model.mapper.PublicUserMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +31,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -70,21 +68,22 @@ public class TweetController {
     }
 
     @GetMapping("/tweets/filtering")
-    ResponseEntity<List<TweetDto>> findFiltering(
-            @RequestParam(value = "search", required = false) List<String> filtersText,
-            @RequestParam(value = "user", required = false) List<String> filtersUser
+    ResponseEntity<Page<TweetDto>> findFiltering(
+            @RequestParam(value = "page", required = false) Integer page,
+            @RequestParam(value = "limit", required = false) Integer size,
+            @RequestParam(value = "sort", required = false) String sortBy,
+            @RequestParam(value = "user", required = false) List<String> filtersUser,
+            @RequestParam(value = "search", required = false) List<String> filtersText
     ){
 
         //Default Values
-        filtersText = filtersText != null ? filtersText : new ArrayList<>();
-        filtersUser = filtersUser != null? filtersUser : new ArrayList<>();
+        page = page != null ? page : 0;
+        size = size != null? size : 100;
+        sortBy = sortBy != null? sortBy : TweetSorting.NEWEST.toString();
+        filtersUser = filtersUser != null? filtersUser : new ArrayList<>(Collections.singletonList(""));
+        filtersText = filtersText != null ? filtersText : new ArrayList<>(Collections.singletonList(""));
 
-        /*List<String> filters = Stream
-                .concat(search.stream(), user.stream())
-                .collect(Collectors.toList());*/
-
-
-        //Formating : Filtering
+        //Format : Filtering
         List<UserDto> userDtoFilters = userService.findFiltersById(filtersUser);
         List<PublicUser> publicUserFilters = userDtoFilters
                 .stream()
@@ -101,7 +100,7 @@ public class TweetController {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(tweetService.findFiltering(textFullFilters, publicUserFilters));
+                .body(tweetService.findFiltering(page, size, sortBy, publicUserFilters, textFullFilters));
     }
 
     @GetMapping("tweets/page")
