@@ -1,5 +1,6 @@
-package com.endava.twitter.exception;
+package com.endava.twitter.exception.custom;
 
+import com.endava.twitter.exception.ExceptionTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -9,10 +10,10 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
 @ControllerAdvice
-public class UserNotFoundExceptionHandler {
+public class TweetNotFoundExceptionHandler {
 
-    @ExceptionHandler(value = {UserNotFoundException.class})
-    public ResponseEntity<Object> handleUserNotFoundException (UserNotFoundException e){
+    @ExceptionHandler(value = {TweetNotFoundException.class})
+    public ResponseEntity<Object> handleTweetNotFoundException (TweetNotFoundException e){
 
         HttpStatus httpStatus = HttpStatus.NOT_FOUND;
 
@@ -27,7 +28,7 @@ public class UserNotFoundExceptionHandler {
         //return new ResponseEntity<>(exceptionTemplate, httpStatus);
         return ResponseEntity
                 .status(httpStatus)
-                .header("userId", (String) null)
+                .header("tweetId", (String) null)
                 .body(exceptionTemplate);
 
     }

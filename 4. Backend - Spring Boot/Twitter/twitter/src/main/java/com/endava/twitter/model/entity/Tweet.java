@@ -15,14 +15,14 @@ import java.util.List;
 public class Tweet {
 
     @Id
-    String id;
-    String createdAt;
-    String lastModifiedAt;
+    private String id;
+    private String createdAt;
+    private String lastModifiedAt;
     @Size(min = 0, max = 280)
-    String text;
-    String image;
-    List<String> favorites = new ArrayList<>();
-    int favoriteCount;
-    PublicUser user;
+    private String text;
+    private String image;
+    private List<String> favorites;
+    private Integer favoriteCount;
+    private PublicUser user;
 
 }

@@ -26,8 +26,8 @@ public class TweetDto {
     String text;
 
     String image;
-    List<String> favorites = new ArrayList<>();
-    int favoriteCount = 0;
+    List<String> favorites;
+    Integer favoriteCount;
     PublicUser user;
 
     public void addUserToFavouriteToArray(String userId){

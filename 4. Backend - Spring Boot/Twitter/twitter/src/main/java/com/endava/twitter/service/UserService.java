@@ -7,7 +7,10 @@ import com.endava.twitter.model.dto.UserDto;
 import com.endava.twitter.repository.UserRepository;
 import com.endava.twitter.model.mapper.UserMapper;
 
-import com.endava.twitter.exception.UserNotFoundException;
+import com.endava.twitter.exception.custom.UserNotFoundException;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -15,14 +18,21 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-     public UserDto findById(String id){
-
+    public UserDto findById(String id){
          return userRepository.findById(id)
                  .map(UserMapper.USER_INSTANCE::toDto)
                  .orElseThrow(
                          () -> new UserNotFoundException(id)
                  );
 
+    }
+
+    public List<UserDto> findFiltersById(List<String> filters){
+        return userRepository
+                .findAllByIdIn(filters)
+                .stream()
+                .map(UserMapper.USER_INSTANCE::toDto)
+                .collect(Collectors.toList());
     }
 
     public UserDto addToFavorites(String userId, String tweetId){

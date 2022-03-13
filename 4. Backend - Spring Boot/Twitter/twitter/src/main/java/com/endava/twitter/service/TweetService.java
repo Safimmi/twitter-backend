@@ -1,19 +1,24 @@
 package com.endava.twitter.service;
 
-import com.endava.twitter.model.dto.UserDto;
+import com.endava.twitter.model.entity.TweetSorting;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.endava.twitter.model.dto.UserDto;
+import com.endava.twitter.model.entity.Tweet;
 import com.endava.twitter.model.dto.TweetDto;
 import com.endava.twitter.repository.TweetRepository;
 import com.endava.twitter.model.mapper.TweetMapper;
 import com.endava.twitter.model.entity.PublicUser;
 
-import com.endava.twitter.exception.TweetNotFoundException;
+import com.endava.twitter.exception.custom.TweetNotFoundException;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
-
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -29,12 +34,70 @@ public class TweetService {
     }
 
     public TweetDto findById(String tweetId){
-
         return tweetRepository.findById(tweetId)
                 .map(TweetMapper.TWEET_INSTANCE::toDto)
                 .orElseThrow(
                         () -> new TweetNotFoundException(tweetId)
                 );
+    }
+
+    public List<TweetDto> findAll(){
+        return tweetRepository
+                .findAll()
+                .stream()
+                .map(TweetMapper.TWEET_INSTANCE::toDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<TweetDto> findAllTextsContaining(String filter){
+        return tweetRepository.findAllByTextContaining(filter)
+                .stream()
+                .map(TweetMapper.TWEET_INSTANCE::toDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<TweetDto> findAllSorting(String sortBy){
+
+        Sort.Direction direction = (
+                sortBy.equalsIgnoreCase(String.valueOf(TweetSorting.NEWEST)) ||
+                        sortBy.equalsIgnoreCase(String.valueOf(TweetSorting.POPULAR))
+        )? Sort.Direction.DESC : Sort.Direction.ASC;
+
+        String field = (
+                sortBy.equalsIgnoreCase(String.valueOf(TweetSorting.NEWEST)) ||
+                        sortBy.equalsIgnoreCase(String.valueOf(TweetSorting.OLDEST))
+        )? "createdAt" : "favoriteCount";
+
+        return tweetRepository
+                .findAll(Sort.by(direction, field))
+                .stream()
+                .map(TweetMapper.TWEET_INSTANCE::toDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<TweetDto> findFiltering(List<String> filtersText, List<PublicUser> filtersUser){
+
+        return tweetRepository
+                .findAllByTextInOrUserIn(filtersText, filtersUser)
+                .stream()
+                .map(TweetMapper.TWEET_INSTANCE::toDto)
+                .collect(Collectors.toList());
+    }
+
+    public Page<TweetDto> findAllOnPages(int page, int size){
+
+        Pageable p = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+
+        List<TweetDto> tweetDtos = tweetRepository
+                .findAll(p)
+                .stream()
+                .map(TweetMapper.TWEET_INSTANCE::toDto)
+                .collect(Collectors.toList());
+
+        Page<TweetDto> tweetDtoPage = new PageImpl<>(tweetDtos);
+
+        return  tweetDtoPage;
+
     }
 
     public TweetDto addNewTweet(TweetDto tweetDto, UserDto userDto){
@@ -52,6 +115,8 @@ public class TweetService {
                 .createdAt(timeStamp)
                 .lastModifiedAt(timeStamp)
                 .text(tweetDto.getText())
+                .favorites(new ArrayList<>())
+                .favoriteCount(0)
                 .image(tweetDto.getImage())
                 .user(publicUser)
                 .build();
@@ -64,14 +129,11 @@ public class TweetService {
     public TweetDto updateTweet(String userId, String tweetId, TweetDto tweet){
 
         String timeStamp = generateNowTimeStamp();
-        String text = tweet.getText();
-        String image = tweet.getImage();
-
         TweetDto tweetDto = findById(tweetId);
 
-        if(text!=null){tweetDto.setText(tweet.getText());}
-        if(image!=null){tweetDto.setImage(tweet.getImage());}
-        if(text!=null || image!=null) {tweetDto.setLastModifiedAt(timeStamp);}
+        tweetDto.setText(tweet.getText()!= null ? tweet.getText() : tweetDto.getText());
+        tweetDto.setImage(tweet.getImage() != null ? tweet.getImage() : tweetDto.getImage());
+        tweetDto.setLastModifiedAt((tweet.getText()!= null || tweet.getImage() != null) ? timeStamp : tweetDto.getLastModifiedAt());
 
         tweetRepository.save(TweetMapper.TWEET_INSTANCE.toEntity(tweetDto));
         return tweetDto;
@@ -90,10 +152,11 @@ public class TweetService {
         return tweetDto;
     }
 
-    public void removeFromFavorites(String userId, String tweetId){
+    public TweetDto removeFromFavorites(String userId, String tweetId){
         TweetDto tweetDto = findById(tweetId);
         tweetDto.removeUserFromFavouriteToArray(userId);
         tweetRepository.save(TweetMapper.TWEET_INSTANCE.toEntity(tweetDto));
+        return  tweetDto;
     }
 
 

@@ -22,7 +22,6 @@ public class UserController {
 
     @GetMapping("/user")
     ResponseEntity<UserDto> searchById(@RequestParam String id){
-
         UserDto userDto = userService.findById(id);
         return ResponseEntity
                 .status(HttpStatus.OK)

@@ -1,4 +1,4 @@
-package com.endava.twitter.exception;
+package com.endava.twitter.exception.custom;
 
 public class TweetNotFoundException extends RuntimeException{
 

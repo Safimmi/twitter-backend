@@ -1,7 +1,7 @@
 package com.endava.twitter.model.entity;
 
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.annotation.Id;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
@@ -16,43 +16,21 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @Document(collection = "User")
-public class User{
-
-   @Id
-    private String id;
-
-    @NotNull
-    @NotEmpty
-    private String name;
-
-    @NotNull
-    @NotEmpty
-    private String username;
-
-    @NotNull
-    @NotEmpty
-    private String email;
+public class User extends PublicUser{
 
     @NotNull
     @NotEmpty
     private String password;
 
-    private List<String> favorites = new ArrayList<>();
-    private List<String> friends = new ArrayList<>();
-    private UserRole role;
+    private List<String> favorites;
+    private List<String> friends;
 
-
-    public User(
-            String name,
-            String username,
-            String email,
-            String password,
-            UserRole role) {
-        this.name = name;
-        this.username = username;
-        this.email = email;
+    public User(String name, String username, String password) {
+        this.setName(name);
+        this.setUsername(username);
         this.password = password;
-        this.role = role;
+        this.favorites = new ArrayList<>();
+        this.friends = new ArrayList<>();
     }
 
 

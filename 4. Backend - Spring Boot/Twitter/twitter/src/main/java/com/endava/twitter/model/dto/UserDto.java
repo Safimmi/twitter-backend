@@ -1,6 +1,6 @@
 package com.endava.twitter.model.dto;
 
-import com.endava.twitter.model.entity.UserRole;
+import com.endava.twitter.autentication.UserRole;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,11 +14,9 @@ public class UserDto {
     private String id;
     private String name;
     private String username;
-    private String email;
     private String password;
-    private List<String> favorites = new ArrayList<>();
-    private List<String> friends = new ArrayList<>();
-    private UserRole role;
+    private List<String> favorites;
+    private List<String> friends;
 
     public void addTweetToFavoritesArray(String tweetId){
         if(!favorites.contains(tweetId)){
