@@ -1,7 +1,6 @@
 package com.endava.twitter.service;
 
-//import org.springframework.security.crypto.password.PasswordEncoder;
-import com.endava.twitter.response.UserResponseTemplate;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import com.endava.twitter.security.UserRole;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +21,8 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    /*@Autowired
-    private PasswordEncoder passwordEncoder;*/
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public UserDto findById(String id){
          return userRepository.findById(id)
@@ -52,14 +51,14 @@ public class UserService {
                 .builder()
                 .name(userInfo.getName())
                 .username(userInfo.getUsername())
-                .password(userInfo.getPassword())
+                .password(passwordEncoder.encode(userInfo.getPassword()))
                 .favorites(new ArrayList<>())
                 .friends(new ArrayList<>())
                 .role(UserRole.USER)
                 .build();
 
         userRepository.save(UserMapper.USER_INSTANCE.toEntity(userDto_build));
-        return userDto_build;
+        return findByUsername(userInfo.getUsername());
     }
 
     public List<UserDto> findFiltersById(List<String> filters){

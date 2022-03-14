@@ -79,7 +79,7 @@ public class TweetController {
                 .body( tweetService.findAllOnPages(page, size));
     }
 
-    @GetMapping("/load/tweets")
+    @GetMapping("/timeline")
     ResponseEntity<Page<TweetDto>> loadTweets(){
         return findFiltering(null, null, null, null, null);
     }

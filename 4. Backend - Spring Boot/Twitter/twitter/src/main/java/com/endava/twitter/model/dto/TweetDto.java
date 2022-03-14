@@ -5,6 +5,7 @@ import lombok.*;
 
 import com.endava.twitter.model.entity.User;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -22,10 +23,13 @@ public class TweetDto {
     String createdAt;
     String lastModifiedAt;
 
+    @NotNull
     @Size(min = 0, max = 280)
     String text;
 
+    @NotNull
     String image;
+
     List<String> favorites;
     Integer favoriteCount;
     PublicUser user;

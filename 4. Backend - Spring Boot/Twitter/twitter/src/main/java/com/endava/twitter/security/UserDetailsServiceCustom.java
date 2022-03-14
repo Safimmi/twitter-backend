@@ -1,6 +1,6 @@
 package com.endava.twitter.security;
 
-/*import com.endava.twitter.exception.custom.TweetNotFoundException;
+import com.endava.twitter.exception.custom.TweetNotFoundException;
 import com.endava.twitter.model.entity.User;
 import com.endava.twitter.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,4 +25,4 @@ public class UserDetailsServiceCustom implements UserDetailsService {
         return userDetailsCustom;
     }
 
-}*/
+}

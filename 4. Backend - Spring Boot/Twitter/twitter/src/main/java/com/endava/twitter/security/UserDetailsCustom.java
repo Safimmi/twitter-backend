@@ -1,6 +1,5 @@
 package com.endava.twitter.security;
 
-/*
 import com.endava.twitter.model.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -57,4 +56,3 @@ public class UserDetailsCustom implements UserDetails {
 
 }
 
-*/

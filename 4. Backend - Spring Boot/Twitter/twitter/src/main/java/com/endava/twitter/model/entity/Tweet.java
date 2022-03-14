@@ -7,6 +7,7 @@ import org.springframework.data.annotation.Id;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +23,10 @@ public class Tweet {
     private String id;
     private String createdAt;
     private String lastModifiedAt;
+    @NotNull
     @Size(min = 0, max = 280)
     private String text;
+    @NotNull
     private String image;
     private List<String> favorites;
     private Integer favoriteCount;

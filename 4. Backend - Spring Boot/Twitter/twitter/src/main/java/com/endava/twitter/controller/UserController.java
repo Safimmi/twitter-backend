@@ -10,6 +10,7 @@ import com.endava.twitter.model.dto.UserDto;
 import com.endava.twitter.service.UserService;
 
 import org.springframework.validation.annotation.Validated;
+import javax.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.http.HttpStatus;
@@ -33,7 +34,7 @@ public class UserController {
     }
 
     @PostMapping("/user/singup")
-    ResponseEntity<UserResponseTemplate> createNewUser(@RequestBody UserDto userInfo){
+    ResponseEntity<UserResponseTemplate> createNewUser(@RequestBody @Valid UserDto userInfo){
 
         if(!userService.existsUserByUsername(userInfo.getUsername())){
             UserDto userDto = userService.createNewUser(userInfo);

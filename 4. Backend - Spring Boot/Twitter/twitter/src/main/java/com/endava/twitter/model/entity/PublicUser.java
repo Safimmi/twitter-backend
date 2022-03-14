@@ -9,6 +9,7 @@ import lombok.Setter;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -23,11 +24,9 @@ public class PublicUser {
     private String id;
 
     @NotNull
-    @NotEmpty
     private String name;
 
     @NotNull
-    @NotEmpty
     @Indexed(unique = true, background = true)
     private String username;
 

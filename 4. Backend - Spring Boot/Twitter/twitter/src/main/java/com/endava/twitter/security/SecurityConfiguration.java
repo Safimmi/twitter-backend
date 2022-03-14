@@ -1,6 +1,6 @@
 package com.endava.twitter.security;
 
-/*import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -33,7 +33,23 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
                 .cors().and().csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/").permitAll()
+
+                .antMatchers("/timeline").permitAll()
+                .antMatchers("/user/singup").permitAll()
+                .antMatchers("/swagger-ui").permitAll()
+
+                .antMatchers("/tweet/{tweetId}").permitAll()
+                .antMatchers("/tweets/All").permitAll()
+                .antMatchers("tweets/page").permitAll()
+
+                .antMatchers("/friends/create").hasRole("USER")
+                .antMatchers("/friends/destroy").hasRole("USER")
+
+                .antMatchers("/tweets").authenticated()
+                .antMatchers("/tweets/{tweetId}").authenticated()
+                .antMatchers("/favorites/create").authenticated()
+                .antMatchers("/favorites/create").authenticated()
+
                 .and()
                 .httpBasic();
     }
@@ -63,4 +79,4 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return source;
     }
 
-}*/
+}

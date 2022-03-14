@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -22,7 +23,6 @@ import java.util.List;
 public class User extends PublicUser{
 
     @NotNull
-    @NotEmpty
     private String password;
 
     private List<String> favorites;
