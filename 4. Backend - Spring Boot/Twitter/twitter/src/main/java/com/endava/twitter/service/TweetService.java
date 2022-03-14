@@ -49,36 +49,6 @@ public class TweetService {
                 .collect(Collectors.toList());
     }
 
-    public List<TweetDto> findAllTextsContaining(String filter){
-        return tweetRepository.findAllByTextContaining(filter)
-                .stream()
-                .map(TweetMapper.TWEET_INSTANCE::toDto)
-                .collect(Collectors.toList());
-    }
-
-    public Page<TweetDto> findFiltering(int page, int size, String sortBy, List<PublicUser> filtersUser, List<String> filtersText){
-
-        Sort.Direction direction = (
-                sortBy.equalsIgnoreCase(String.valueOf(TweetSorting.NEWEST)) ||
-                        sortBy.equalsIgnoreCase(String.valueOf(TweetSorting.POPULAR))
-        )? Sort.Direction.DESC : Sort.Direction.ASC;
-
-        String field = (
-                sortBy.equalsIgnoreCase(String.valueOf(TweetSorting.NEWEST)) ||
-                        sortBy.equalsIgnoreCase(String.valueOf(TweetSorting.OLDEST))
-        )? "createdAt" : "favoriteCount";
-
-        Pageable p = PageRequest.of(page, size, Sort.by(direction, field));
-
-        List<TweetDto> tweetDtos = tweetRepository
-                .findAllByTextInOrUserIn(filtersText, filtersUser, p)
-                .stream()
-                .map(TweetMapper.TWEET_INSTANCE::toDto)
-                .collect(Collectors.toList());
-
-        return new PageImpl<>(tweetDtos);
-    }
-
     public List<TweetDto> findAllSorting(String sortBy){
 
         Sort.Direction direction = (
@@ -110,6 +80,36 @@ public class TweetService {
 
         return new PageImpl<>(tweetDtos);
 
+    }
+
+    public List<TweetDto> findAllTextsContaining(String filter){
+        return tweetRepository.findAllByTextContaining(filter)
+                .stream()
+                .map(TweetMapper.TWEET_INSTANCE::toDto)
+                .collect(Collectors.toList());
+    }
+
+    public Page<TweetDto> findFiltering(int page, int size, String sortBy, List<PublicUser> filtersUser, List<String> filtersText){
+
+        Sort.Direction direction = (
+                sortBy.equalsIgnoreCase(String.valueOf(TweetSorting.NEWEST)) ||
+                        sortBy.equalsIgnoreCase(String.valueOf(TweetSorting.POPULAR))
+        )? Sort.Direction.DESC : Sort.Direction.ASC;
+
+        String field = (
+                sortBy.equalsIgnoreCase(String.valueOf(TweetSorting.NEWEST)) ||
+                        sortBy.equalsIgnoreCase(String.valueOf(TweetSorting.OLDEST))
+        )? "createdAt" : "favoriteCount";
+
+        Pageable p = PageRequest.of(page, size, Sort.by(direction, field));
+
+        List<TweetDto> tweetDtos = tweetRepository
+                .findAllByTextInOrUserIn(filtersText, filtersUser, p)
+                .stream()
+                .map(TweetMapper.TWEET_INSTANCE::toDto)
+                .collect(Collectors.toList());
+
+        return new PageImpl<>(tweetDtos);
     }
 
     public TweetDto addNewTweet(TweetDto tweetDto, UserDto userDto){

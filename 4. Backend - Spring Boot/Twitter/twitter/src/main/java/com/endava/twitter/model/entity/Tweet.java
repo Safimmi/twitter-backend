@@ -1,5 +1,7 @@
 package com.endava.twitter.model.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.annotation.Id;
 import lombok.Getter;
@@ -12,6 +14,8 @@ import java.util.List;
 @Getter
 @Setter
 @Document(collection = "Tweet")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Tweet {
 
     @Id

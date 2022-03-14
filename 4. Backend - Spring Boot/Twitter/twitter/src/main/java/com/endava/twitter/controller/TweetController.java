@@ -53,7 +53,7 @@ public class TweetController {
                 .body(tweetDto);
     }
 
-    @GetMapping("/tweets")
+    @GetMapping("/tweets/All")
     ResponseEntity<List<TweetDto>> findAll(){
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -67,7 +67,24 @@ public class TweetController {
                 .body(tweetService.findAllSorting(sortBy));
     }
 
-    @GetMapping("/tweets/filtering")
+    @GetMapping("tweets/page")
+    ResponseEntity <Page<TweetDto>> findAllOnPages( @RequestParam(value = "page", required = false) Integer page, @RequestParam(value = "limit", required = false) Integer size){
+
+        //Default Values
+        page = page != null ? page : 0;
+        size = size != null? size : 100;
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body( tweetService.findAllOnPages(page, size));
+    }
+
+    @GetMapping("/load/tweets")
+    ResponseEntity<Page<TweetDto>> loadTweets(){
+        return findFiltering(null, null, null, null, null);
+    }
+
+    @GetMapping("/tweets")
     ResponseEntity<Page<TweetDto>> findFiltering(
             @RequestParam(value = "page", required = false) Integer page,
             @RequestParam(value = "limit", required = false) Integer size,
@@ -101,21 +118,6 @@ public class TweetController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(tweetService.findFiltering(page, size, sortBy, publicUserFilters, textFullFilters));
-    }
-
-    @GetMapping("tweets/page")
-    ResponseEntity <Page<TweetDto>> findAllOnPages(
-            @RequestParam(value = "page", required = false) Integer page,
-            @RequestParam(value = "limit", required = false) Integer size
-    ){
-
-        //Default Values
-        page = page != null ? page : 0;
-        size = size != null? size : 100;
-
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body( tweetService.findAllOnPages(page, size));
     }
 
     @PostMapping("/tweets")

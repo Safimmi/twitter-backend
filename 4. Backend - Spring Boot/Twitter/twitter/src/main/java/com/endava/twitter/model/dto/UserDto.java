@@ -1,22 +1,41 @@
 package com.endava.twitter.model.dto;
 
-import com.endava.twitter.autentication.UserRole;
-import lombok.Getter;
-import lombok.Setter;
+import com.endava.twitter.security.UserRole;
+import lombok.*;
+import org.springframework.data.mongodb.core.index.Indexed;
 
-import java.util.ArrayList;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserDto {
 
+
     private String id;
+
+    @NotNull
+    @NotEmpty
     private String name;
+
+    @NotNull
+    @NotEmpty
+    @Indexed(unique = true, background = true)
     private String username;
+
+    @NotNull
+    @NotEmpty
     private String password;
+
     private List<String> favorites;
     private List<String> friends;
+
+    private UserRole role;
+
 
     public void addTweetToFavoritesArray(String tweetId){
         if(!favorites.contains(tweetId)){

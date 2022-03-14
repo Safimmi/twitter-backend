@@ -1,5 +1,7 @@
 package com.endava.twitter.model.entity;
 
+import com.endava.twitter.security.UserRole;
+import lombok.AllArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.Getter;
@@ -14,6 +16,7 @@ import java.util.List;
 
 @Getter
 @Setter
+@AllArgsConstructor
 @NoArgsConstructor
 @Document(collection = "User")
 public class User extends PublicUser{
@@ -25,12 +28,15 @@ public class User extends PublicUser{
     private List<String> favorites;
     private List<String> friends;
 
+    private UserRole role;
+
     public User(String name, String username, String password) {
         this.setName(name);
         this.setUsername(username);
         this.password = password;
         this.favorites = new ArrayList<>();
         this.friends = new ArrayList<>();
+        this.role = UserRole.USER;
     }
 
 

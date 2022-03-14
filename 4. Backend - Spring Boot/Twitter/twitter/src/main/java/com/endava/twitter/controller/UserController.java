@@ -1,18 +1,20 @@
 package com.endava.twitter.controller;
 
+import com.endava.twitter.model.mapper.UserMapper;
+import com.endava.twitter.response.TweetResponseTemplate;
+import com.endava.twitter.response.UserResponseTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.endava.twitter.model.dto.UserDto;
 import com.endava.twitter.service.UserService;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
+
+import java.util.ArrayList;
 
 @RestController
 public class UserController {
@@ -27,6 +29,37 @@ public class UserController {
                 .status(HttpStatus.OK)
                 .header("userId", userDto.getId())
                 .body(userDto);
+
+    }
+
+    @PostMapping("/user/singup")
+    ResponseEntity<UserResponseTemplate> createNewUser(@RequestBody UserDto userInfo){
+
+        if(!userService.existsUserByUsername(userInfo.getUsername())){
+            UserDto userDto = userService.createNewUser(userInfo);
+
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .header("userId", userDto.getId())
+                    .body(
+                            new UserResponseTemplate(
+                                    "User registered successfully.",
+                                    userDto
+                            )
+                    );
+        }
+        else{
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(
+                            new UserResponseTemplate(
+                                    "Registration failed. \n A user is already registered with this username. ",
+                                    null
+                            )
+                    );
+        }
+
+
 
     }
 

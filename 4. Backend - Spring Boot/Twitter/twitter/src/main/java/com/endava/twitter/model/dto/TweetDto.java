@@ -1,9 +1,7 @@
 package com.endava.twitter.model.dto;
 
 import com.endava.twitter.model.entity.PublicUser;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import com.endava.twitter.model.entity.User;
 
@@ -16,6 +14,8 @@ import java.util.function.Predicate;
 @Getter
 @Setter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class TweetDto {
 
     String id;

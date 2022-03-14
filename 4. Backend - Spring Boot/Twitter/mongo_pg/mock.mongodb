@@ -47,45 +47,51 @@ db.Tweet.insert({
     }
 })
 
-//Tweet post request
+//Tweet post request 
 {
-    "text" : "This is text about dogs",
-    "image" : "https://www.okchicas.com/wp-content/uploads/2020/09/Perrito-shiba-Inu-ama-sonreir-10.jpg"
+    {
+        "text" : "This is text about dogs",
+        "image" : "https://www.okchicas.com/wp-content/uploads/2020/09/Perrito-shiba-Inu-ama-sonreir-10.jpg"
+    }
+
+    {
+        "text"  : "This is about cats.",
+        "image" : "https://images.fineartamerica.com/images/artworkimages/mediumlarge/2/kitten-sleeping-russian-blue-cat-gita-kulinitch-studio.jpg"
+    }
+
+    {
+        "text" : "This is text about parrots",
+        "image" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_1LhCCvOdiNxY1cyzMuebfGVGbTIGZU8dvA&usqp=CAU"
+    }
+
+    {
+        "text" : "This is text about rusian blue cats",
+        "image" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOPhAX0NoPwkRjTCjtis3XNq5J5Ap-mxYNww&usqp=CAU"
+    }
+
+    {
+        "text" : "This is text about otters",
+        "image" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5WZChFKenAcPXV9FTi_NDq_AUBVh_nT1O8g&usqp=CAU"
+    }
+
+    {
+        "text" : "This is text about tortoises",
+        "image" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJxkcC1d5RM8idKw48Ivu7QZ116mHYAPWkBw&usqp=CAU"
+    }
+
+    {
+        "text" : "This is text about squirrels",
+        "image" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJxkcC1d5RM8idKw48Ivu7QZ116mHYAPWkBw&usqp=CAU"
+    }
+
+    {
+        "text" : "This is text about tabby cream cats",
+        "image" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQcqOQUl0_MJnLe7s0-mFMAlmIrrUe3X9PLw&usqp=CAU"
+    }
 }
 
-{
-    "text"  : "This is about cats.",
-    "image" : "https://images.fineartamerica.com/images/artworkimages/mediumlarge/2/kitten-sleeping-russian-blue-cat-gita-kulinitch-studio.jpg"
-}
 
-{
-    "text" : "This is text about parrots",
-    "image" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_1LhCCvOdiNxY1cyzMuebfGVGbTIGZU8dvA&usqp=CAU"
-}
-
-{
-    "text" : "This is text about rusian blue cats",
-    "image" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSOPhAX0NoPwkRjTCjtis3XNq5J5Ap-mxYNww&usqp=CAU"
-}
-
-{
-    "text" : "This is text about otters",
-    "image" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5WZChFKenAcPXV9FTi_NDq_AUBVh_nT1O8g&usqp=CAU"
-}
-
-{
-    "text" : "This is text about tortoises",
-    "image" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJxkcC1d5RM8idKw48Ivu7QZ116mHYAPWkBw&usqp=CAU"
-}
-
-{
-    "text" : "This is text about squirrels",
-    "image" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJxkcC1d5RM8idKw48Ivu7QZ116mHYAPWkBw&usqp=CAU"
-}
-
-{
-    "text" : "This is text about tabby cream cats",
-    "image" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQcqOQUl0_MJnLe7s0-mFMAlmIrrUe3X9PLw&usqp=CAU"
-}
+// Create an index --> Username
+db. User.createIndex({"username":1}, {background:true}, { unique: true }, { "textIndexVersion": <version> } )
 
 
