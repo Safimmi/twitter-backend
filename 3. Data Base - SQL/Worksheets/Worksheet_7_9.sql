@@ -1,0 +1,44 @@
+--7. Hacer un back - up de la BD challenge. 
+
+(En RMAN) 
+CONNECT TARGET; 
+SHUTDOWN IMMEDIATE; 
+STARTUP FORCE DBA; 
+SHUTDOWN IMMEDIATE; 
+STARTUP MOUNT; 
+BACKUP DATABASE; 
+ALTER DATABASE OPEN; 
+
+--8. Borrar la base de datos challenge y recuperarla desde el back-up. 
+
+DROP TABLESPACE challenge INCLUDING CONTENTS; 
+
+
+(En RMAN) 
+CONNECT TARGET;  
+SHUTDOWN ABORT; 
+STARTUP NOMOUNT; 
+
+RESTORE CONTROLFILE FROM 'C:\app\JuSuarez\product\21c\dbhomeXE\database\C-2979382357-20220302-03'; 
+ALTER DATABASE MOUNT; 
+
+RUN { 
+    SET UNTIL TIME "to_date('02-MAR-2022 12:33:00','DD-MON-YYYY HH24:Mi:SS')"; 
+    RESTORE DATABASE; 
+    RECOVER DATABASE; 
+} 
+
+ALTER DATABASE OPEN RESETLOGS; 
+
+
+--9. Borrar una tabla challenge y recuperarla desde el back-up. 
+DROP TABLE challenge.challenge; 
+
+(En RMAN) 
+
+CONNECT TARGET; 
+SHUTDOWN ABORT; 
+STARTUP FORCE MOUNT; 
+RESTORE DATABASE; 
+RECOVER DATABASE; 
+ALTER DATABASE OPEN RESETLOGS; 

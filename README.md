@@ -31,7 +31,7 @@ To start this project, we want to have basic functionalities, and depending on t
 we want an API that exposes some endpoints so in the future the front-end team can use them.
   
 > - [<font color="violet">Spring Boot Project</font>](https://github.com/Safimmi/EndavaChallenges/tree/master/4.%20Backend%20-%20Spring%20Boot/Twitter/twitter) :memo:
-> - [<font color="violet">Swagger Path</font>](http://localhost:8885/swagger-ui.html) :memo:
+> - [<font color="violet">Swagger Path - http://localhost:8885/swagger-ui.html</font>](http://localhost:8885/swagger-ui.html) :memo: 
 > - [Problem description document](https://github.com/Safimmi/EndavaChallenges/blob/master/4.%20Backend%20-%20Spring%20Boot/Spring%20Boot%20Twitter%20Challenge/Spring%20Boot%20Twitter%20Challenge.pdf)
 
 
