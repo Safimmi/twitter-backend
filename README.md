@@ -12,19 +12,12 @@ To start this project, we want to have basic functionalities, and depending on t
 - Add/Remove like.
 - See timeline and be able to sort and set filter.
   
-<<<<<<< HEAD
-> - [<font color="violet">Java Spring Boot Project</font>]() :memo:
-> - [<font color="violet">Swagger Path - http://localhost:8885/swagger-ui.html</font>](http://localhost:8885/swagger-ui.html) :memo: 
-> - [Problem description document]()
-> - [Support Slides]()
-=======
 > - [<font color="violet">Spring Boot Project</font>](https://github.com/Safimmi/EndavaChallenges/tree/master/4.%20Backend%20-%20Spring%20Boot/Twitter/twitter) :memo:
 > - [<font color="violet">Swagger Path</font>](http://localhost:8885/swagger-ui.html) :memo:
 > - [Problem description document](https://github.com/Safimmi/EndavaChallenges/blob/master/4.%20Backend%20-%20Spring%20Boot/Spring%20Boot%20Twitter%20Challenge/Spring%20Boot%20Twitter%20Challenge.pdf)
 
 
 
->>>>>>> master
 
 
 
