@@ -1,5 +1,0 @@
-ORIGIN : Diego (Mantainer)
-ME : Sofia (Developer)
-TEAMMATE : Andres (Forked)
-"SOURCE" : Andres (Forked)
-
