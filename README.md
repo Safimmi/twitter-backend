@@ -18,15 +18,4 @@ To start this project, we want to have basic functionalities, and depending on t
 > - [Support Slides]()
 
 
-## 4. Back End - Spring Boot
-#### *Week 1* 
-
-As an Endava customer, we want to have an application like twitter to be able to use it internally in our company.
-To start this project, we want to have basic functionalities, and depending on the needs, we will add more requirements in the future. As a first step,
-we want an API that exposes some endpoints so in the future the front-end team can use them.
-  
-> - [<font color="violet">Spring Boot Project</font>]() :memo:
-> - [<font color="violet">Swagger</font>]() :memo:
-> - [Problem description document]()
-
 
