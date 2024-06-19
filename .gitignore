@@ -1,0 +1,7 @@
+## IDE
+.ini/
+.vscode/*
+
+# Java
+**/target
+
